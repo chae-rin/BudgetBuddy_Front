@@ -2,10 +2,19 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from "axios";
 
 function App() {
 
   let [title, updateTitle] = useState(['20대 여성 코트 추천', '강남 우동 맛집']);
+
+  axios.post('/test/')
+       .then(function(response){
+          console.log(response);
+       })
+       .catch(function(error){
+          console.log(error);
+       });
 
   return (
     <div className="App">
