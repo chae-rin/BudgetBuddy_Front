@@ -23,6 +23,64 @@ body {
   padding-right: 20px;
 }
 
+
+.topMenu {            
+  height: 40px;
+  width: 850px;
+}
+
+.topMenu ul li {                   
+  list-style: none;          
+  color: #2d2d2d;              
+  float: left;               
+  line-height: 40px;         
+  vertical-align: middle;     
+  text-align: center;         
+}
+
+.topMenu .menuLink {                              
+  text-decoration:none;                      
+  color: #2d2d2d;                             
+  display: block;                            
+  width: 150px;                              
+  font-size: 12px;                           
+  font-weight: bold;                         
+  font-family: "Trebuchet MS", Dotum, Arial; 
+}
+
+.topMenu .menuLink:hover {            
+  color: rgb(051, 153, 051);                   
+}
+
+.topMenu .menuLink.active {            
+  color: rgb(051, 153, 051);    
+  border-bottom: solid;               
+}
+
+.w-btn {
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 15px 30px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.w-btn-green {
+  background-color: white;
+  color: rgb(051, 153, 051);
+  border: 1px solid;
+  border-color: rgb(051, 153, 051);
+}
+
+.w-btn:hover {
+  cursor: pointer;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

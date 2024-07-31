@@ -1,0 +1,117 @@
+
+.Header{
+    padding: 10px 50px;
+    background-color: rgb(051, 153, 051);
+}
+
+.Header span{
+    font-size: 20px;
+    font-family: "paybooc-Light", sans-serif;
+    font-weight: 600;
+}
+
+.arrow-btn{
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+    margin: 0px 30px;
+    color: white;
+    background-color: transparent;
+    font-size: 25px;
+    /* color: darkgray;
+    border: 3px solid #77af9c; 
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); */
+}
+
+.arrow-btn:hover{
+    cursor: pointer;
+    /* background-color: #77af9c;
+    color: #d7fff1; */
+}
+
+.montlyContent{
+    width: 100%;
+    color: white;
+}
+
+.montlyContent span{
+    display:inline-block;
+    width: 45px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.recordsContent{
+    border-bottom: solid 1px;
+    border-bottom-color: gray;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    width: 450px;
+    border-radius: 15px;
+    margin: auto;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+
+.recordsContent div{
+    width: 50%;
+}
+
+.recordsContent .expendContent{
+    border-right: solid 1px;
+    border-right-color: gray;
+}
+
+.recordsContent .amount{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.recordsContent .expendContent .amount{
+    color: red;
+}
+
+.recordsContent .incomeContent .amount{
+    color: green;
+}
+
+
+.Main {
+    padding: 10px 50px;
+}
+
+.Main .list-header{
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+    border-bottom: solid 1px;
+    border-color: gray;
+}
+
+.Main .list-header button{
+    float: right;
+}
+
+.Main .budget-list ul {                   
+    list-style: none;   
+    padding-left: 0px;
+} 
+
+.Main .budget-list ul li {                   
+    padding: 15px 0;
+    border-bottom: 1px solid #e2e2e2;
+    display: flex;
+    justify-content: space-between;  
+    height: 50px;            
+    line-height: 50px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+} 
