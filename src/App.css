@@ -77,6 +77,13 @@ body {
   border-color: rgb(051, 153, 051);
 }
 
+.w-btn-green2 {
+  background-color: rgb(153, 205, 153);
+  color: rgb(051, 153, 051);
+  border: 1px solid;
+  border-color: rgb(153, 205, 153);
+}
+
 .w-btn:hover {
   cursor: pointer;
 }

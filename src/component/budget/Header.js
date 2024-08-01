@@ -48,6 +48,9 @@ function Header(props){
                 </div>                    
                 {/* <button className="w-btn w-btn-green" style={{marginLeft:"25px"}}>분석</button> */}
             </div>
+            <div>
+                <button className="w-btn w-btn-green2" style={{width:"450px"}}>자산 분석하기</button>
+            </div>
         </div>
     )
 }

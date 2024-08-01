@@ -58,6 +58,7 @@
     border-radius: 15px;
     margin: auto;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
 
 
@@ -98,14 +99,33 @@
 
 .Main .list-header button{
     float: right;
+    font-size: 35px;
+    background-color: transparent;
+    border: 0;
+}
+
+.Main .list-header button:hover{
+    cursor: pointer;
 }
 
 .Main .budget-list ul {                   
-    list-style: none;   
+    list-style: none; 
     padding-left: 0px;
 } 
 
-.Main .budget-list ul li {                   
+
+.Main .budget-list ul li {        
+    padding: 25px 0;
+    text-align: left;
+}
+
+.Main .budget-list dt {
+    margin: 15px;
+}
+
+
+.Main .budget-list dt dl {        
+    margin-bottom: 15px;           
     padding: 15px 0;
     border-bottom: 1px solid #e2e2e2;
     display: flex;
@@ -115,3 +135,27 @@
     border-radius: 15px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 } 
+
+
+.Main .budget-list .category {
+    width:15%;
+    background-color: cadetblue;
+    border-radius: 25px;
+    margin-left: 15px;
+    text-align: center;
+}
+
+.Main .budget-list .detail {
+    width:55%;
+    text-align: left;
+    padding-left: 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.Main .budget-list .amount {
+    width:30%;
+    text-align: right;
+    margin-right: 15px;
+}
