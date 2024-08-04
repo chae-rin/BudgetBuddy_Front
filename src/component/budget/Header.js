@@ -9,7 +9,7 @@ function Header(props){
 
     const getMonthlyTotal = () => {
         axios({
-            method: 'post',
+            method: 'get',
             url: '/budget/monthly/total',
             params: {
                 userId: 'hue9404',

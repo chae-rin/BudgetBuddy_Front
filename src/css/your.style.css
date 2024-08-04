@@ -97,7 +97,7 @@
     border-color: gray;
 }
 
-.Main .list-header button{
+.transper.btn{
     float: right;
     font-size: 35px;
     background-color: transparent;
@@ -139,11 +139,72 @@
 
 .Main .budget-list .category {
     width:15%;
-    background-color: cadetblue;
     border-radius: 25px;
     margin-left: 15px;
     text-align: center;
 }
+
+.CTGR001 {
+    background-color: #afeeee;
+}
+
+.CTGR002 {
+    background-color: #deb887;
+}
+
+.CTGR003 {
+    background-color: #90ee90;
+}
+
+.CTGR004 {
+    background-color: #ffd700;
+}
+
+.CTGR005 {
+    background-color:#ffc0cb;
+}
+
+.CTGR006 {
+    background-color: #87cefa;
+}
+
+.CTGR007 {
+    background-color: cadetblue;
+}
+
+.CTGR008 {
+    background-color: #ffa500;
+}
+
+.CTGR009 {
+    background-color: #32cd32;
+}
+
+.CTGR010 {
+    background-color: cadetblue;
+}
+
+.CTGR011 {
+    background-color: #9932cc;
+}
+
+.CTGR012 {
+    background-color: #1e90ff;
+}
+
+.CTGR013 {
+    background-color: #ffdead;
+}
+
+.CTGR014 {
+    background-color: #e6e6fa;
+}
+
+.CTGR015 {
+    background-color:#c0c0c0;
+}
+
+
 
 .Main .budget-list .detail {
     width:55%;
