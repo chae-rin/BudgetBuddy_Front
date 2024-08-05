@@ -94,46 +94,56 @@ function Main(props){
                 label : "금액",
                 name : "recordAmount",
                 element : "input",
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_amount
+                value : (recordId.current=='') ? "" : budgetInfo.current.record_amount,
+                required : true,
+                maxLength : 10
             },
             {
                 label : "분류",
                 name : "recordType",
                 element : "select",
                 option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"지출"},{code_id:"1", code_name:"수입"}],
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_type
+                value : (recordId.current=='') ? "" : budgetInfo.current.record_type,
+                required : true
             },
             {
                 label : "카테고리",
-                name : "category",
+                name : "recordCategory",
                 element : "select",
                 option : categoryList,
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_cd
+                value : (recordId.current=='') ? "" : budgetInfo.current.record_cd,
+                required : true
             },
             {
                 label : "거래처",
                 name : "recordDetail",
                 element : "input",
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_detail
+                value : (recordId.current=='') ? "" : budgetInfo.current.record_detail,
+                required : true,
+                maxLength : 15
             },
             {
                 label : "결제수단",
-                name : "payment",
+                name : "recordPayment",
                 element : "select",
                 option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"현금"},{code_id:"1", code_name:"카드"}],
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_out_payment_cd
+                value : (recordId.current=='') ? "" : budgetInfo.current.record_out_payment_cd,
+                required : true
             },
             {
                 label : "날짜",
                 name : "recordDtm",
                 element : "date",
-                value : (recordId.current=='') ? new Date().toISOString() : budgetInfo.current.record_dtm
+                value : (recordId.current=='') ? new Date().toISOString() : budgetInfo.current.record_dtm,
+                required : true
             },
             {
                 label : "메모",
                 name : "recordMemo",
                 element : "input",
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_memo
+                value : (recordId.current=='') ? "" : budgetInfo.current.record_memo,
+                required : false,
+                maxLength : 100
             }
         ]);
     }
@@ -154,17 +164,24 @@ function Main(props){
             method: 'post',
             url: '/budget',
             params: {
-                userId      : 'hue0904',
-                recordType  : params.get('recordType'),
-                recordDtm   : params.get('recordDtm'),
-                recordDetail: params.get('recordDetail'),
-                recordAmount: params.get('recordAmount'),
-                recordMemo  : params.get('recordMemo')
+                userId          : 'hue9404',
+                recordAmount    : params.recordAmount,
+                recordType      : params.recordType,
+                recordCategory  : params.recordCategory,
+                recordDetail    : params.recordDetail,
+                recordPayment   : params.recordPayment,
+                recordDtm       : params.recordDtm,
+                recordMemo      : params.recordMemo
             }
         })
         .then((res) => {
             let data = res.data.data;
-            console.log("reg..");
+            
+            if( data === 'SUCCESS')
+            {
+                alert("등록되었습니다.");
+                setModal(false);
+            }
         })
         .catch((err) => {
             console.error(err);
@@ -175,20 +192,29 @@ function Main(props){
     function updateData(params){
         axios({
             method: 'put',
-            url: '/budget',
+            url: '/budget/' + recordId.current,
             params: {
-                recordId    : recordId.current,
-                recordType  : params.get('recordType'),
-                recordDtm   : params.get('recordDtm'),
-                recordDetail: params.get('recordDetail'),
-                recordAmount: params.get('recordAmount'),
-                recordMemo  : params.get('recordMemo')
+                recordId        : recordId.current,
+                userId          : 'hue9404',
+                recordAmount    : params.recordAmount,
+                recordType      : params.recordType,
+                recordCategory  : params.recordCategory,
+                recordDetail    : params.recordDetail,
+                recordPayment   : params.recordPayment,
+                recordDtm       : params.recordDtm,
+                recordMemo      : params.recordMemo
             }
         })
         .then((res) => {
             let data = res.data.data;
-            console.log("reg..");    
-            console.log(data);
+
+            if( data === 'SUCCESS')
+            {
+                alert("수정되었습니다.");
+                setModal(false);
+            }
+
+            
         })
         .catch((err) => {
             console.error(err);
@@ -221,7 +247,7 @@ function Main(props){
                                     <dl key={budget.record_id}>
                                         <div className={"category " + budget.record_cd}>{budget.code_name}</div>
                                         <div className="detail" onClick={()=>{setModal(true); setMode('UPD'); getData(budget.record_id);}}>{budget.record_detail}</div>
-                                        <div className="amount"><span>{budget.record_type===0?'-':'+'}</span>{budget.record_amount.toLocaleString('ko-KR')}원</div>
+                                        <div className="amount"><span>{budget.record_type==0?'-':'+'}</span>{budget.record_amount.toLocaleString('ko-KR')}원</div>
                                     </dl>
                                 ))}
                             </dt>
