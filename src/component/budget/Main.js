@@ -5,6 +5,8 @@ import Modal from '../../pages/Modal.js';
 
 function Main(props){
 
+    const uri = '/budget/' + props.curDate.getFullYear() + '/' +  (props.curDate.getMonth()+1)
+                
     // 전체내역 가져오기
     const [budgetList, setBudgetList] = useState([]);
     const getBudgetList = async() => {
@@ -96,7 +98,7 @@ function Main(props){
                 element : "input",
                 value : (recordId.current=='') ? "" : budgetInfo.current.record_amount,
                 required : true,
-                maxLength : 10
+                maxLength : 100
             },
             {
                 label : "분류",
@@ -120,7 +122,7 @@ function Main(props){
                 element : "input",
                 value : (recordId.current=='') ? "" : budgetInfo.current.record_detail,
                 required : true,
-                maxLength : 15
+                maxLength : 500
             },
             {
                 label : "결제수단",
@@ -143,7 +145,7 @@ function Main(props){
                 element : "input",
                 value : (recordId.current=='') ? "" : budgetInfo.current.record_memo,
                 required : false,
-                maxLength : 100
+                maxLength : 500
             }
         ]);
     }
@@ -179,8 +181,8 @@ function Main(props){
             
             if( data === 'SUCCESS')
             {
-                alert("등록되었습니다.");
                 setModal(false);
+                window.location.replace( uri );
             }
         })
         .catch((err) => {
@@ -210,10 +212,36 @@ function Main(props){
 
             if( data === 'SUCCESS')
             {
-                alert("수정되었습니다.");
                 setModal(false);
+                window.location.replace( uri );
             }
+            
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
 
+
+    // 데이터 삭제
+    const deleteData = ()=>{
+
+        axios({
+            method: 'put',
+            url: '/budget/' + recordId.current,
+            params: {
+                recordId  : recordId.current,
+                userId    : 'hue9404'
+            }
+        })
+        .then((res) => {
+            let data = res.data.data;
+
+            if( data === 'SUCCESS')
+            {
+                setModal(false);
+                window.location.replace( uri );
+            }
             
         })
         .catch((err) => {
@@ -230,7 +258,9 @@ function Main(props){
                     modal === true ? 
                     <Modal onClose={setModal} 
                            content={data}
-                           saveData={saveData}>
+                           saveData={saveData}
+                           mode={mode}
+                           deleteData={deleteData}>
                     </Modal> 
                     : null
                 }

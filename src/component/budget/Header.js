@@ -1,11 +1,20 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, forwardRef, useImperativeHandle} from "react";
 import axios from "axios";
 
-function Header(props){
+const Header = forwardRef((props, ref) => {
+
+    useImperativeHandle(ref, () => ({
+        getMonthlyTotal
+    }));
+
 
     // 지출, 수입
     const [expend, setExpend] = useState(0);
     const [income, setIncome] = useState(0);
+
+    useEffect(() => {
+        getMonthlyTotal();
+    }, [props.curDate]);    
 
     const getMonthlyTotal = () => {
         axios({
@@ -17,6 +26,7 @@ function Header(props){
             }
         })
         .then((res) => {
+            console.log("getMonthly");
 
             let monthly_expend_sum = res.data.monthly_expend_sum.toLocaleString('ko-KR');
             let monthly_income_sum = res.data.monthly_income_sum.toLocaleString('ko-KR');
@@ -29,10 +39,6 @@ function Header(props){
         });
     }
 
-
-    useEffect(() => {
-        getMonthlyTotal();
-    }, [props.curDate]);    
 
 
     return (
@@ -53,6 +59,6 @@ function Header(props){
             </div>
         </div>
     )
-}
+})
 
 export default Header;

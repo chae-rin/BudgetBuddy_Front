@@ -1,21 +1,25 @@
 import { Component } from 'react';
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import '../css/your.style.css';
 
 import Total from '../component/budget/Header.js';
 import Main from '../component/budget/Main.js';
+import { useParams } from 'react-router-dom';
 
 function Budget(){
    
+    const params = useParams();
+    
     // 날짜 세팅
-    const [curDate, setCurDate] = useState(new Date());
-        
+    const [curDate, setCurDate] = useState(new Date(params.year, params.month-1, 1));
+
     const increaseMonth = () => {
         setCurDate(new Date(curDate.getFullYear(), curDate.getMonth() + 1, curDate.getDate()));
     };
     const decreaseMonth = () => {
         setCurDate(new Date(curDate.getFullYear(), curDate.getMonth() - 1, curDate.getDate()));
     };
+
 
     return (
         <div className="Budget">
@@ -26,7 +30,7 @@ function Budget(){
                         <p>{curDate.getFullYear()}년 자산현황</p>
                         <span>{curDate.getMonth()+1}</span><span>월</span>
                     </div>
-                    <button className="arrow-btn" onClick={increaseMonth}>▶</button>             
+                    <button className="arrow-btn" onClick={increaseMonth}>▶</button>           
                 </div>
                 <Total curDate={curDate}></Total>
             </div>

@@ -7,11 +7,14 @@ import dayjs, { Dayjs } from 'dayjs';
 import {useForm} from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message'
 
+import flaticon from '../img/flaticon.png'
+
 function Modal(props){
     const {onClose} = props;
     const {content} = props;
+    const {mode} = props;
 
-
+    console.log(mode);
 
     // 모달 배경 스크롤 막기
     useEffect(() => {
@@ -29,19 +32,16 @@ function Modal(props){
 
 
     // 저장버튼 클릭
-    function clickSaveBtn(event) {
-        event.preventDefault();
-
-        const formData = new FormData(event.target);
-        // props.saveData(formData);
-    }
-    
     const {register, handleSubmit,formState:{errors}} = useForm({mode:"onBlur"});
     const onSubmit = (data) => {
-        console.log("data", data);
         props.saveData(data);
     }
     
+
+    // 삭제버튼 클릭
+    const deleteData = () => {
+        props.deleteData();
+    }
 
     return (
         <div className="modal">
@@ -75,24 +75,34 @@ function Modal(props){
                                                         </div>
                                             case "select":
                                                 return (
-                                                    <select name={item.name}
-                                                            {...register(item.name,
-                                                                { required: { value: item.required, message: item.label + "을 입력해주세요" } })}>
-                                                        {item.option.map((opt) => (
-                                                            <option value={opt.code_id} selected={item.value === opt.code_id}>{opt.code_name}</option>
-                                                        ))}
-                                                    </select>);
+                                                    <div>
+                                                        <select name={item.name}
+                                                                {...register(item.name,
+                                                                    { required: { value: item.required, message: item.label + "을 선택해주세요" } })}>
+                                                            {item.option.map((opt) => (
+                                                                <option value={opt.code_id} selected={item.value === opt.code_id}>{opt.code_name}</option>
+                                                            ))}
+                                                        </select>
+                                                        <ErrorMessage
+                                                            errors={errors}
+                                                            name={item.name}
+                                                            render={({ message }) => <p style={{color:"red", fontSize:"10px", margin:"0"}}>{message}</p>}
+                                                        />
+                                                    </div>
+                                                    );
                                             case "date":
                                                 return (
-                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DateTimePicker 
-                                                            name={item.name}
-                                                            value={dayjs(item.value)}
-                                                            format="YYYY-MM-DD HH:mm:ss"
-                                                            {...register(item.name,
-                                                                { required: { value: item.required, message: item.label + "을 입력해주세요" } })}
+                                                    <div>
+                                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                            <DateTimePicker 
+                                                                name={item.name}
+                                                                value={dayjs(item.value)}
+                                                                format="YYYY-MM-DD HH:mm:ss"
+                                                                {...register(item.name,
+                                                                    { required: { value: item.required, message: item.label + "을 입력해주세요" } })}
                                                             />
-                                                    </LocalizationProvider>
+                                                        </LocalizationProvider>
+                                                    </div>
                                                 );    
                                             default:
                                                 return null;
@@ -103,7 +113,14 @@ function Modal(props){
                         ))}
                     </div>
                     <div style={{width:"100%",height:"10%"}}>
-                        <button type="submit" className="w-btn w-btn-green2" style={{width:"100%",bottom:"0"}}>저장</button>
+                        {
+                            mode == 'REG'
+                            ? <button type="submit" className="w-btn w-btn-green2" style={{width:"100%",bottom:"0"}}>저장</button>
+                            : <div style={{display:"flex"}}>
+                                <div onClick={deleteData} className="w-btn deleteBtn" style={{border:"solid 1px"}}></div>
+                                <button type="submit" className="w-btn w-btn-green2" style={{width:"100%",bottom:"0"}}>저장</button>
+                              </div>
+                        }
                     </div>
                 </form>
             </div>
