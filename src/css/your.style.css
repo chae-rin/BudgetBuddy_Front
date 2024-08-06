@@ -229,7 +229,8 @@
 
 .deleteBtn{
     background-image: url(../img/flaticon.png);
-    background-size: cover;
+    background-size: 25px 25px;
+    background-repeat: no-repeat;
     background-position: center;
     margin-right: 10px;
     border: solid 1px;
