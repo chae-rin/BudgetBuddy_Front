@@ -103,7 +103,7 @@ function Main(props){
                 label : "분류",
                 name : "recordType",
                 element : "select",
-                option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"지출"}],
+                option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"지출"},{code_id:"1", code_name:"수입"}],
                 value : (recordId.current=='') ? "" : budgetInfo.current.record_type,
                 required : true
             },

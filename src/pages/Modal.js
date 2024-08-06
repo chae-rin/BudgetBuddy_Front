@@ -57,22 +57,29 @@ function Modal(props){
 
     const [inputValue, setInputValue] = useState({});
     
-    // 입력 값이 숫자만 포함되도록 제한하고 콤마를 추가
     const handleChange = (e, type) => {
 
-        if( type !== 'number' ) return;
-
         const {name, value} = e.target;
-        // 숫자와 콤마만 남기고 제거
-        const numbersOnly = value.replace(/[^0-9]/g, '');
-        // 3자리마다 콤마를 추가
-        const formattedNumber = numbersOnly.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        if( type === 'number' ) {
+            // 숫자와 콤마만 남기고 제거
+            const numbersOnly = value.replace(/[^0-9]/g, '');
+            // 3자리마다 콤마를 추가
+            const formattedNumber = numbersOnly.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            
+            setValue(name, formattedNumber); // react-hook-form 상태 업데이트
+            setInputValue((preValues)=>({
+                ...preValues,
+                [name] : formattedNumber
+            }));
+        } else {
+            setValue(name, value); // react-hook-form 상태 업데이트
+            setInputValue((preValues)=>({
+                ...preValues,
+                [name] : value
+            }));
+        }
         
-        setValue(name, formattedNumber); // react-hook-form 상태 업데이트
-        setInputValue((preValues)=>({
-            ...preValues,
-            [name] : formattedNumber
-        }));
     };
 
 
