@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef} from "react";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import {useForm, Controller} from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message'
 
@@ -29,14 +29,18 @@ function Modal(props){
 
 
     // 저장버튼 클릭
-    const {register, handleSubmit, setValue, control, formState:{errors}} = useForm();
+    const {register, handleSubmit, setValue, control, setError, formState:{errors}} = useForm();
     const onSubmit = (data) => {
-        // 날짜 포맷을 지정된 형식으로 변경
         const formattedData = { ...data };
         content.forEach((item) => {
             if (item.element === "date") {
-                formattedData[item.name] = dayjs(data[item.name]).format("YYYY-MM-DD HH:mm:ss");
-            }
+                const dateValue = dayjs(data[item.name]);
+                if (!dateValue.isValid()) {
+                  setError(item.name, { type: "manual", message: "유효한 날짜를 입력해주세요." });
+                } else {
+                  formattedData[item.name] = dateValue.format("YYYY-MM-DD HH:mm:ss");
+                }
+              }
         });
 
         props.saveData(formattedData);
@@ -153,13 +157,28 @@ function Modal(props){
                                                                 name={item.name}
                                                                 control={control}
                                                                 defaultValue={dayjs(item.value)}
+                                                                rules={{
+                                                                validate: (value) => {
+                                                                    // value가 dayjs 객체가 아닐 경우 dayjs로 변환
+                                                                    const date = dayjs(value);
+                                                                    return (date.isValid() && value !== null) || "유효한 날짜를 입력해주세요.";
+                                                                }
+                                                                }}
                                                                 render={({ field }) => (
+                                                                <div>
                                                                     <DateTimePicker
                                                                         {...field}
-                                                                        value={field.value || dayjs()}
-                                                                        onChange={(date) => field.onChange(date)}
+                                                                        value={field.value ? dayjs(field.value) : null}
                                                                         format="YYYY-MM-DD HH:mm:ss"
+                                                                        onChange={(date) => field.onChange(date ? dayjs(date) : null)}
+                                                                        renderInput={(params) => <input {...params} />}
                                                                     />
+                                                                    <ErrorMessage
+                                                                        errors={errors}
+                                                                        name={item.name}
+                                                                        render={({ message }) => <p style={{ color: "red", fontSize: "10px", margin: "0" }}>{message}</p>}
+                                                                    />
+                                                                </div>
                                                                 )}
                                                             />
                                                         </LocalizationProvider>
