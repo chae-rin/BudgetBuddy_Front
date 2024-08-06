@@ -4,7 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import {useForm} from 'react-hook-form';
+import {useForm, Controller} from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message'
 
 
@@ -29,9 +29,17 @@ function Modal(props){
 
 
     // 저장버튼 클릭
-    const {register, handleSubmit, setValue, formState:{errors}} = useForm();
+    const {register, handleSubmit, setValue, control, formState:{errors}} = useForm();
     const onSubmit = (data) => {
-        props.saveData(data);
+        // 날짜 포맷을 지정된 형식으로 변경
+        const formattedData = { ...data };
+        content.forEach((item) => {
+            if (item.element === "date") {
+                formattedData[item.name] = dayjs(data[item.name]).format("YYYY-MM-DD HH:mm:ss");
+            }
+        });
+
+        props.saveData(formattedData);
     }
     
 
@@ -130,13 +138,29 @@ function Modal(props){
                                             case "date":
                                                 return (
                                                     <div>
-                                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                             <DateTimePicker 
                                                                 name={item.name}
                                                                 value={dayjs(item.value)}
                                                                 format="YYYY-MM-DD HH:mm:ss"
                                                                 {...register(item.name,
                                                                     { required: { value: item.required, message: item.label + "을 입력해주세요" } })}
+                                                            />
+                                                        </LocalizationProvider> */}
+
+                                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                            <Controller
+                                                                name={item.name}
+                                                                control={control}
+                                                                defaultValue={dayjs(item.value)}
+                                                                render={({ field }) => (
+                                                                    <DateTimePicker
+                                                                        {...field}
+                                                                        value={field.value || dayjs()}
+                                                                        onChange={(date) => field.onChange(date)}
+                                                                        format="YYYY-MM-DD HH:mm:ss"
+                                                                    />
+                                                                )}
                                                             />
                                                         </LocalizationProvider>
                                                     </div>
