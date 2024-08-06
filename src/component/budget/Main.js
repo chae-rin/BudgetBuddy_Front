@@ -59,10 +59,8 @@ function Main(props){
     const [mode, setMode] = useState('REG');
     const [data, setData] = useState([]);
     
-    // const content = useRef([]);
     const recordId = useRef(''); 
     const budgetInfo = useRef({});
-
 
     const getData = async(param)=>{
         
@@ -98,13 +96,14 @@ function Main(props){
                 element : "input",
                 value : (recordId.current=='') ? "" : budgetInfo.current.record_amount,
                 required : true,
-                maxLength : 100
+                maxLength : 100,
+                type : "number"
             },
             {
                 label : "분류",
                 name : "recordType",
                 element : "select",
-                option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"지출"},{code_id:"1", code_name:"수입"}],
+                option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"지출"}],
                 value : (recordId.current=='') ? "" : budgetInfo.current.record_type,
                 required : true
             },
@@ -140,7 +139,7 @@ function Main(props){
                 required : true
             },
             {
-                label : "메모",
+                label : "메모 (선택항목)",
                 name : "recordMemo",
                 element : "input",
                 value : (recordId.current=='') ? "" : budgetInfo.current.record_memo,
@@ -167,7 +166,7 @@ function Main(props){
             url: '/budget',
             params: {
                 userId          : 'hue9404',
-                recordAmount    : params.recordAmount,
+                recordAmount    : params.recordAmount.replace(/,/gi, ''),
                 recordType      : params.recordType,
                 recordCategory  : params.recordCategory,
                 recordDetail    : params.recordDetail,
@@ -198,7 +197,7 @@ function Main(props){
             params: {
                 recordId        : recordId.current,
                 userId          : 'hue9404',
-                recordAmount    : params.recordAmount,
+                recordAmount    : params.recordAmount.replace(/,/gi, ''),
                 recordType      : params.recordType,
                 recordCategory  : params.recordCategory,
                 recordDetail    : params.recordDetail,

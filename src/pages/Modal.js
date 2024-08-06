@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -7,14 +7,11 @@ import dayjs, { Dayjs } from 'dayjs';
 import {useForm} from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message'
 
-import flaticon from '../img/flaticon.png'
 
 function Modal(props){
     const {onClose} = props;
     const {content} = props;
     const {mode} = props;
-
-    console.log(mode);
 
     // 모달 배경 스크롤 막기
     useEffect(() => {
@@ -32,7 +29,7 @@ function Modal(props){
 
 
     // 저장버튼 클릭
-    const {register, handleSubmit,formState:{errors}} = useForm({mode:"onBlur"});
+    const {register, handleSubmit, setValue, formState:{errors}} = useForm();
     const onSubmit = (data) => {
         props.saveData(data);
     }
@@ -40,8 +37,46 @@ function Modal(props){
 
     // 삭제버튼 클릭
     const deleteData = () => {
-        props.deleteData();
+        if(window.confirm("삭제하시겠습니까?")){
+            props.deleteData();
+        }
     }
+
+
+    const [inputValue, setInputValue] = useState({});
+    
+    // 입력 값이 숫자만 포함되도록 제한하고 콤마를 추가
+    const handleChange = (e, type) => {
+
+        if( type !== 'number' ) return;
+
+        const {name, value} = e.target;
+        // 숫자와 콤마만 남기고 제거
+        const numbersOnly = value.replace(/[^0-9]/g, '');
+        // 3자리마다 콤마를 추가
+        const formattedNumber = numbersOnly.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        
+        setValue(name, formattedNumber); // react-hook-form 상태 업데이트
+        setInputValue((preValues)=>({
+            ...preValues,
+            [name] : formattedNumber
+        }));
+    };
+
+
+    useEffect(() => {
+        if (mode === 'UPD') {
+            content.forEach((obj) => {
+            let value = obj.value || '';
+            if (obj.element === 'input' && obj.type === 'number') {
+                value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+            setValue(obj.name, value); // react-hook-form 상태 업데이트
+            setInputValue((prev) => ({ ...prev, [obj.name]: value }));
+            });
+        }
+    }, [mode, content, setValue]);
+
 
     return (
         <div className="modal">
@@ -62,10 +97,12 @@ function Modal(props){
                                                 return <div>
                                                             <input 
                                                                 name={item.name} 
-                                                                defaultValue={item.value}
+                                                                value={inputValue[item.name]}
+                                                                // defaultValue={item.value}
                                                                 maxLength={item.maxLength}
                                                                 {...register(item.name,
-                                                                    { required: { value: item.required, message: item.label + "을 입력해주세요" } })}
+                                                                    { required: { value: item.required, message: "입력해주세요." } })}
+                                                                onChange={(e) => handleChange(e, item.type)}
                                                             />
                                                             <ErrorMessage
                                                                 errors={errors}
@@ -78,7 +115,7 @@ function Modal(props){
                                                     <div>
                                                         <select name={item.name}
                                                                 {...register(item.name,
-                                                                    { required: { value: item.required, message: item.label + "을 선택해주세요" } })}>
+                                                                    { required: { value: item.required, message: "선택해주세요." } })}>
                                                             {item.option.map((opt) => (
                                                                 <option value={opt.code_id} selected={item.value === opt.code_id}>{opt.code_name}</option>
                                                             ))}
