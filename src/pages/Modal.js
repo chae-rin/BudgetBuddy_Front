@@ -9,9 +9,23 @@ import { ErrorMessage } from '@hookform/error-message'
 
 
 function Modal(props){
-    const {onClose} = props;
-    const {content} = props;
-    const {mode} = props;
+    const {onClose, content, mode, renderContent, requiredValue, isHidden} = props;
+
+    const getRequiredStatus = (item) => {
+        if (requiredValue[item.name] !== undefined) {
+            return requiredValue[item.name];
+        }
+
+        return item.required;
+    }
+
+    const setHiddenCotent = (item) => {
+        if (isHidden[item.name] !== undefined) {
+            return isHidden[item.name];
+        }
+
+        return item.hidden;
+    }
 
     // 모달 배경 스크롤 막기
     useEffect(() => {
@@ -29,7 +43,7 @@ function Modal(props){
 
 
     // 저장버튼 클릭
-    const {register, handleSubmit, setValue, control, setError, formState:{errors}} = useForm();
+    const {register, handleSubmit, setValue, control, setError, formState:{errors}, trigger} = useForm();
     const onSubmit = (data) => {
         const formattedData = { ...data };
         content.forEach((item) => {
@@ -42,7 +56,6 @@ function Modal(props){
                 }
               }
         });
-
         props.saveData(formattedData);
     }
     
@@ -55,12 +68,11 @@ function Modal(props){
     }
 
 
+    // inputBox value 값 변경 핸들러
     const [inputValue, setInputValue] = useState({});
-    
     const handleChange = (e, type) => {
-
         const {name, value} = e.target;
-
+        
         if( type === 'number' ) {
             // 숫자와 콤마만 남기고 제거
             const numbersOnly = value.replace(/[^0-9]/g, '');
@@ -83,19 +95,40 @@ function Modal(props){
     };
 
 
+    // selectBox 값 변경 핸들러
+    const [selectedValue, setSelectedValue] = useState('');
+    const handleSelectChange = (e, item) => {
+        const {name, value} = e.target;
+        setValue(name, value); // react-hook-form 상태 업데이트
+        setSelectedValue((preValues)=>({
+            ...preValues,
+            [name] : value
+        }));
+
+        if( item.type=='customize' )
+        {
+            renderContent({ ...selectedValue, [name]: value });
+        }
+    };
+
+
     useEffect(() => {
-        if (mode === 'UPD') {
-            content.forEach((obj) => {
+        content.forEach((obj) => {
             let value = obj.value || '';
             if (obj.element === 'input' && obj.type === 'number') {
                 value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             }
+
             setValue(obj.name, value); // react-hook-form 상태 업데이트
             setInputValue((prev) => ({ ...prev, [obj.name]: value }));
-            });
-        }
-    }, [mode, content, setValue]);
+            setSelectedValue((prev) => ({ ...prev, [obj.name]: value }));
+        });
 
+        trigger("recordType");
+
+    }, [mode, content, setValue, trigger]);
+
+      
 
     return (
         <div className="modal">
@@ -105,22 +138,21 @@ function Modal(props){
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} style={{width:"100%",height:"90%"}}>
                     <div style={{width:"100%",height:"90%",overflowY:"auto"}}>
-                        
                         {content.map((item) => (
-                            <div style={{display:"-webkit-inline-box", width:"100%"}}>
-                                <div style={{width:"30%"}}>{item.label}</div>
-                                <div style={{width:"70%"}}>
-                                    {(() => {
-                                        switch (item.element) {
-                                            case "input":
-                                                return <div>
+                             <div>
+                                {(() => {
+                                    switch (item.element) {
+                                        case "input":
+                                            return <div style={{display:"-webkit-inline-box", width:"100%"}}>
+                                                        <div style={{width:"30%"}}>{item.label}</div>
+                                                        <div style={{width:"70%"}}>
                                                             <input 
                                                                 name={item.name} 
                                                                 value={inputValue[item.name]}
                                                                 // defaultValue={item.value}
                                                                 maxLength={item.maxLength}
                                                                 {...register(item.name,
-                                                                    { required: { value: item.required, message: "입력해주세요." } })}
+                                                                    { required: { value: getRequiredStatus(item), message: "입력해주세요." } })}
                                                                 onChange={(e) => handleChange(e, item.type)}
                                                             />
                                                             <ErrorMessage
@@ -129,36 +161,50 @@ function Modal(props){
                                                                 render={({ message }) => <p style={{color:"red", fontSize:"10px", margin:"0"}}>{message}</p>}
                                                             />
                                                         </div>
-                                            case "select":
-                                                return (
-                                                    <div>
-                                                        <select name={item.name}
-                                                                {...register(item.name,
-                                                                    { required: { value: item.required, message: "선택해주세요." } })}>
-                                                            {item.option.map((opt) => (
-                                                                <option value={opt.code_id} selected={item.value === opt.code_id}>{opt.code_name}</option>
-                                                            ))}
-                                                        </select>
+                                                    </div>
+                                        case "select":
+                                            return (
+                                                <div style={{display:"-webkit-inline-box", width:"100%"}} key={item.name} ref={(el) => {
+
+                                                    if (el) {
+                                                        el.style.display = setHiddenCotent(item) ? 'none' : '-webkit-inline-box';
+                                                    }
+
+                                                }}>
+                                                    <div style={{width:"30%"}}>{item.label}</div>
+                                                    <div style={{width:"70%"}}>
+                                                    <Controller
+                                                            name={item.name}
+                                                            control={control}
+                                                            rules={{ required: getRequiredStatus(item) ? "선택해주세요." : false }}
+                                                            render={({ field }) => (
+                                                                <select
+                                                                    {...field}
+                                                                    value={selectedValue[item.name]}
+                                                                    onChange={(e) => {
+                                                                        field.onChange(e); // react-hook-form 내부 상태 업데이트
+                                                                        handleSelectChange(e, item); // 사용자 정의 핸들러
+                                                                    }}
+                                                                >
+                                                                    {item.option.map((opt) => (
+                                                                        <option key={opt.code_id} value={opt.code_id}>{opt.code_name}</option>
+                                                                    ))}
+                                                                </select>
+                                                            )}
+                                                        />
                                                         <ErrorMessage
                                                             errors={errors}
                                                             name={item.name}
-                                                            render={({ message }) => <p style={{color:"red", fontSize:"10px", margin:"0"}}>{message}</p>}
+                                                            render={({ message }) => <p style={{ color: "red", fontSize: "10px", margin: "0" }}>{message}</p>}
                                                         />
                                                     </div>
-                                                    );
-                                            case "date":
-                                                return (
-                                                    <div>
-                                                        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                            <DateTimePicker 
-                                                                name={item.name}
-                                                                value={dayjs(item.value)}
-                                                                format="YYYY-MM-DD HH:mm:ss"
-                                                                {...register(item.name,
-                                                                    { required: { value: item.required, message: item.label + "을 입력해주세요" } })}
-                                                            />
-                                                        </LocalizationProvider> */}
-
+                                                </div>
+                                                );
+                                        case "date":
+                                            return (
+                                                <div style={{display:"-webkit-inline-box", width:"100%"}}>
+                                                    <div style={{width:"30%"}}>{item.label}</div>
+                                                    <div style={{width:"70%"}}>
                                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                             <Controller
                                                                 name={item.name}
@@ -190,12 +236,12 @@ function Modal(props){
                                                             />
                                                         </LocalizationProvider>
                                                     </div>
-                                                );    
-                                            default:
-                                                return null;
-                                        }
-                                    })()}
-                                </div>
+                                                </div>
+                                            );    
+                                        default:
+                                            return null;
+                                    }
+                                })()}
                             </div>
                         ))}
                     </div>

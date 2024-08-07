@@ -38,7 +38,7 @@ function Main(props){
         method: 'get',
         url: '/common/code',
         params: {
-            grpCodeId: 'CATEGORY'
+            grpCodeId: 'EXPEND-CTGR'
         }
     })
     .then((res) => {
@@ -103,17 +103,28 @@ function Main(props){
                 label : "분류",
                 name : "recordType",
                 element : "select",
-                option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"지출"},{code_id:"1", code_name:"수입"}],
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_type,
-                required : true
+                option : [{code_id:"0", code_name:"지출"},{code_id:"1", code_name:"수입"}],
+                value : (recordId.current=='') ? "0" : budgetInfo.current.record_type,
+                required : true,
+                type : "customize"
             },
             {
                 label : "카테고리",
-                name : "recordCategory",
+                name : "expendCategory",
                 element : "select",
                 option : categoryList,
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_cd,
-                required : true
+                value : (recordId.current=='') ? "" : (budgetInfo.current.record_type=='0') ? budgetInfo.current.record_cd : "",
+                required : (recordId.current=='') ? true : (budgetInfo.current.record_type=='0') ? true : false,
+                hidden : (recordId.current=='') ? false : (budgetInfo.current.record_type=='0') ? false : true
+            },
+            {
+                label : "카테고리",
+                name : "incomeCategory",
+                element : "select",
+                option : [{code_id:"", code_name:"선택하세요"},{code_id:"CTGR016", code_name:"월급"},{code_id:"CTGR017", code_name:"상여금"}],
+                value : (recordId.current=='') ? "" : (budgetInfo.current.record_type=='1') ? budgetInfo.current.record_cd : "",
+                required : (recordId.current=='') ? false : (budgetInfo.current.record_type=='1') ? true : false,
+                hidden : (recordId.current=='') ? true : (budgetInfo.current.record_type=='1') ? false : true 
             },
             {
                 label : "거래처",
@@ -128,8 +139,9 @@ function Main(props){
                 name : "recordPayment",
                 element : "select",
                 option : [{code_id:"", code_name:"선택하세요"},{code_id:"0", code_name:"현금"},{code_id:"1", code_name:"카드"}],
-                value : (recordId.current=='') ? "" : budgetInfo.current.record_out_payment_cd,
-                required : true
+                value : (recordId.current=='') ? "" : (budgetInfo.current.record_type=='0') ? budgetInfo.current.record_out_payment_cd : "",
+                required : (recordId.current=='') ? true : (budgetInfo.current.record_type=='0') ? true : false,
+                hidden : (recordId.current=='') ? false : (budgetInfo.current.record_type=='0') ? false : true 
             },
             {
                 label : "날짜",
@@ -150,12 +162,66 @@ function Main(props){
     }
 
 
+    const [requiredValue, setRequiredValue] = useState({});
+    const [isHidden, setHidden] = useState({});
+
+    const renderContent = (selectedValue) => {
+        const expends = document.getElementsByName("expendCategory");
+        const income = document.getElementsByName("incomeCategory");
+        const payment = document.getElementsByName("recordPayment");
+
+        if( selectedValue.recordType === '0' )
+        {
+            // expends.forEach(target => { target.parentElement.parentElement.style.display = '-webkit-inline-box'; });
+            // income.forEach(target => {  target.parentElement.parentElement.style.display = 'none'; });
+            // payment.forEach(target => {  target.parentElement.parentElement.style.display = '-webkit-inline-box'; });
+
+            setRequiredValue(prevValues => ({
+                ...prevValues,
+                expendCategory: true,
+                incomeCategory: false,
+                recordPayment: true
+            }));
+
+            setHidden(prevValues => ({
+                ...prevValues,
+                expendCategory: false,
+                incomeCategory: true,
+                recordPayment: false
+            }));
+        }
+        else
+        {
+            // expends.forEach(target => { target.parentElement.parentElement.style.display = 'none'; });
+            // income.forEach(target => {  target.parentElement.parentElement.style.display = '-webkit-inline-box'; });
+            // payment.forEach(target => {  target.parentElement.parentElement.style.display = 'none'; });
+
+            setRequiredValue(prevValues => ({
+                ...prevValues,
+                expendCategory: false,
+                incomeCategory: true,
+                recordPayment: false
+            }));
+
+            setHidden(prevValues => ({
+                ...prevValues,
+                expendCategory: true,
+                incomeCategory: false,
+                recordPayment: true
+            }));
+        }
+        
+    };
+
+
+
+
     // 데이터 저장
     const saveData = (params) => {
         if(mode==='REG'){
             insertData(params);
         } else{
-            updateData(params);
+            // updateData(params);
         }
     }
 
@@ -168,7 +234,8 @@ function Main(props){
                 userId          : 'hue9404',
                 recordAmount    : params.recordAmount.replace(/,/gi, ''),
                 recordType      : params.recordType,
-                recordCategory  : params.recordCategory,
+                expendCategory  : params.expendCategory,
+                incomeCategory  : params.incomeCategory,
                 recordDetail    : params.recordDetail,
                 recordPayment   : params.recordPayment,
                 recordDtm       : params.recordDtm,
@@ -199,7 +266,8 @@ function Main(props){
                 userId          : 'hue9404',
                 recordAmount    : params.recordAmount.replace(/,/gi, ''),
                 recordType      : params.recordType,
-                recordCategory  : params.recordCategory,
+                expendCategory  : params.expendCategory,
+                incomeCategory  : params.incomeCategory,
                 recordDetail    : params.recordDetail,
                 recordPayment   : params.recordPayment,
                 recordDtm       : params.recordDtm,
@@ -259,7 +327,10 @@ function Main(props){
                            content={data}
                            saveData={saveData}
                            mode={mode}
-                           deleteData={deleteData}>
+                           deleteData={deleteData}
+                           renderContent={renderContent}
+                           requiredValue={requiredValue}
+                           isHidden={isHidden}>
                     </Modal> 
                     : null
                 }
