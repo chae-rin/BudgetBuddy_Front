@@ -1,8 +1,13 @@
 /** eslint-disable */
 import React, {useState} from 'react';
-import {Routes, Route, Link} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import Home from "./pages/Home";
 import Budget from "./pages/Budget.js";
+import Login from './login/Login';
+import Register from './login/Register';
+import FindId from './login/FindId';
+import FindPw from './login/FindPw';
+import ResetPw from './login/ResetPw';
 import './App.css';
 
 function App() {
@@ -24,6 +29,15 @@ function App() {
         <Route path="/" element={<Home/>}></Route>
         <Route path="/budget/:year/:month" element={<Budget/>}></Route>
       </Routes>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/findId' element={<FindId/>}/>
+          <Route path='/findPw' element={<FindPw/>}/>
+          <Route path='/resetPw' element={<ResetPw/>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
