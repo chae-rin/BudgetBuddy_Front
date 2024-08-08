@@ -23,21 +23,18 @@ function App() {
         <ul>
           <li><Link to="/" className="menuLink active">Home</Link></li>
           <li><Link to={`/budget/${today.getFullYear()}/${today.getMonth()+1}`} className="menuLink" >가계부</Link></li>
+          <li><Link to="/login" className="menuLink">로그인</Link></li>
         </ul>
       </nav>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
         <Route path="/budget/:year/:month" element={<Budget/>}></Route>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
+        <Route path='/findId' element={<FindId/>}/>
+        <Route path='/findPw' element={<FindPw/>}/>
+        <Route path='/resetPw' element={<ResetPw/>}/>
       </Routes>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
-          <Route path='/findId' element={<FindId/>}/>
-          <Route path='/findPw' element={<FindPw/>}/>
-          <Route path='/resetPw' element={<ResetPw/>}/>
-        </Routes>
-      </BrowserRouter>
     </div>
   );
 }
