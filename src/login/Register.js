@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { encrypted } from './Crypto';
 import '../css/Login.css';
 import axios from 'axios';
 
@@ -144,7 +143,7 @@ function Register(){
         const register = async() => {
             let res = await axios.post('/user/register', {
                 'user_id' : userId,
-                'user_pw' : encrypted(userPw),
+                'user_pw' : userPw,
                 'user_email' : userEmail,
                 'user_nickname' : userNickname
             });

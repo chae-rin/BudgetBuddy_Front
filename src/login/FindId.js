@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../css/Login.css';
 import axios from 'axios';
 
@@ -8,7 +8,6 @@ function FindId(){
     let [userEmail, setUserEmail] = useState("");
     let [isVisible, setIsVisible] = useState(""); // 이메일 없을 시 메세지
     let [patEmailErr, setPatEmailErr] = useState(""); // 이메일 패턴 오류 문구
-    const navigate = useNavigate();
 
     const checkEmail = () => {
         setIsVisible(false);

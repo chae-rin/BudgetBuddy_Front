@@ -45,7 +45,6 @@ function FindPw(){
                                 onChange={(e) => setUserEmail(e.target.value)}
                                 ></input>
                         <div className={isVisible ? 'err_msg_show' : 'err_msg'}>해당되는 정보가 없습니다.</div>
-                        {/* <div className={isVisible ? 'err_msg_show' : 'err_msg'}>아이디와 이메일이 일치하지 않습니다.</div> */}
                         <button type="button" id="loginBtn"
                             onClick={() => {findPw({userId : userId, userEmail : userEmail})}}
                             >비밀번호 초기화</button>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import '../css/Login.css';
 import axios from 'axios';
-import { encrypted } from './Crypto';
 
 function ResetPw(){
 
@@ -13,40 +12,6 @@ function ResetPw(){
     let [userPw2, setUserPw2] = useState("");
     let [patPwErr, setPatPwErr] = useState(""); // 비번 패턴 오류 문구
     let [samePwErr, setSamePwErr] = useState(""); // 비번 확인 오류 문구
-    
-    // alert(location.state.user_id);
-
-    /*
-    const passwordencrypted = () => {
-        const encrypted = CryptoJS.AES.encrypt(JSON.stringify(userPw), process.env.REACT_APP_AES_SECRETKEY).toString();
-        setEnpa(encrypted);
-        console.log('encrypted key :: ' + encrypted);
-    }
-
-    const passworddecrypted = () => {
-        const bytes = CryptoJS.AES.decrypt(enpa, process.env.REACT_APP_AES_SECRETKEY);
-        const decrypted = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        console.log('decrypted key :: ' + decrypted);
-    }
-
-    const secretKey2 = process.env.REACT_APP_AES_SECRETKEY;
-    console.log(secretKey2);
-    
-
-    const encrypted = () => {
-        // AES알고리즘 사용 암호화
-        const encrypted = CryptoJS.AES.encrypt(JSON.stringify(userPw), secretKey).toString();
-        setHash(encrypted);
-        console.log('encrypted key :: ' + encrypted);
-    }
-
-    const decrypted = () => {
-        // AES알고리즘 사용 복호화
-        const bytes = CryptoJS.AES.decrypt(hash, secretKey);
-        const decrypted = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        console.log('decrypted key :: ' + decrypted);
-    }
-    */
 
     const checkPassword = () => {
         setPatPwErr(false);
@@ -82,9 +47,8 @@ function ResetPw(){
         } else {
             axios.post('/user/resetPw',{
                 'user_id' : location.state.user_id,
-                'user_pw' : encrypted(userPw)
+                'user_pw' : userPw
             }).then((res) => {
-                alert(res.status);
                 if(res.status === 200){
                     alert('비밀번호 변경이 완료되었습니다.');
                     navigate('/login');
