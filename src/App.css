@@ -6,11 +6,21 @@ body {
   font-family: 'nanumsquare';
 }
 
+
+.bank-logo{
+  background-image: url(./img/bank_green.png);
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 40px;
+}
+
+
 .black-nav {
-  background-color: black;
+  /* background-color: white; */
   width: 100%;
   display: flex;
-  color: white;
+  color: rgb(051, 153, 051);
   padding: 20px;
   font-weight: 600;
   font-size: 20px;
@@ -53,8 +63,7 @@ body {
 }
 
 .topMenu .menuLink.active {            
-  color: rgb(051, 153, 051);    
-  border-bottom: solid;               
+  color: rgb(051, 153, 051);  
 }
 
 .w-btn {
