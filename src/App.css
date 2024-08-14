@@ -30,6 +30,8 @@ body {
 }
 
 .logout {
+  background-color: white;
+  border: none;
   margin-left: auto;
   font-size: 10px;
 }

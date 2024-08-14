@@ -1,6 +1,6 @@
 /** eslint-disable */
 import React, {useState} from 'react';
-import { Routes, Route, Link, useLocation, NavLink} from 'react-router-dom';
+import { Routes, Route, useLocation, NavLink, useNavigate} from 'react-router-dom';
 import Home from "./pages/Home";
 import Budget from "./pages/Budget.js";
 import Login from './login/Login';
@@ -17,8 +17,15 @@ import { styled } from '@mui/material';
 function App() {
 
   let today = new Date();
-
+  const navigate = useNavigate();
   const isLogin = Authentication.isUserLoggedIn();
+
+  function logout(){
+    if(window.confirm('로그아웃하시겠습니까?')){
+      Authentication.logout();
+      navigate('/');
+    }
+  }
 
   return (
     <div className="App">
@@ -28,7 +35,7 @@ function App() {
             <div className='main-title'>Budget Buddy</div>
             {
               isLogin
-              ? <div className='logout'>로그아웃</div>
+              ? <button type="button" className='logout' onClick={() => {logout()}}>로그아웃</button>
               : <></>
             }
         </div>
@@ -49,7 +56,7 @@ function App() {
         <Route element={<PrivateRoute/>}>
           <Route path="/budget/:year/:month" element={<Budget/>}></Route>
         </Route>
-        <Route path="/" element={<LoginErr/>}/>
+        <Route path="/" element={<Login/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/findId' element={<FindId/>}/>
