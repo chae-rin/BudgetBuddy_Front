@@ -54,14 +54,13 @@ function App() {
         }
       </div>
       <Routes>
+        {/* 404 페이지 */}
+        <Route path={"*"} element={<LoginErr/>}/>
+
         {/* 로그인전용 */}
         <Route element={<PrivateRoute/>}>
           <Route path="/budget/:year/:month" element={<Budget/>}></Route>
         </Route>
-
-        {/* 로그인, 로그아웃 공통 */}
-        <Route path="/" element={<Home/>}/>
-        <Route path='/loginErr' element={<LoginErr/>}/>
 
         {/* 로그아웃 전용 */}
         <Route element={<PublicRoute/>}>
@@ -71,6 +70,10 @@ function App() {
           <Route path='/findPw' element={<FindPw/>}/>
           <Route path='/resetPw' element={<ResetPw/>}/>
         </Route>
+
+        {/* 로그인, 로그아웃 공통 */}
+        <Route path="/" element={<Home/>}/>
+        <Route path='/loginErr' element={<LoginErr/>}/>
       </Routes>
     </div>
   );
