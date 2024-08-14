@@ -19,7 +19,8 @@ function App() {
     <div className="App">
       <div className="black-nav">
           <div className="bank-logo"></div>   
-          <div>Budget Buddy</div>
+          <div className='main-title'>Budget Buddy</div>
+          <div className='logout'>로그아웃</div>
       </div>
       <nav className='topMenu'>
         <ul>

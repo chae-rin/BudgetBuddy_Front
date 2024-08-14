@@ -18,12 +18,20 @@ body {
 
 .black-nav {
   /* background-color: white; */
-  width: 100%;
+  width: 96%;
   display: flex;
-  color: rgb(051, 153, 051);
   padding: 20px;
   font-weight: 600;
+}
+
+.main-title {
+  color: rgb(051, 153, 051);
   font-size: 20px;
+}
+
+.logout {
+  margin-left: auto;
+  font-size: 10px;
 }
 
 .list {
