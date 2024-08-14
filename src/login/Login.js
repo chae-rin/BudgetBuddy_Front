@@ -21,7 +21,6 @@ function Login(){
         Authentication.executeJwtAuthenticationService(userId, userPw)
             .then((response)=>{
                 Authentication.registerSuccessLoginForJwt(userId, response.data.token);
-                alert("로그인에 성공하였습니다.");
                 navigate('/budget/'+yearMon);
             }).catch((err)=>{
                 setIsVisible(true);

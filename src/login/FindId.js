@@ -8,10 +8,13 @@ function FindId(){
     let [userEmail, setUserEmail] = useState("");
     let [isVisible, setIsVisible] = useState(""); // 이메일 없을 시 메세지
     let [patEmailErr, setPatEmailErr] = useState(""); // 이메일 패턴 오류 문구
+    let [foundId, setFoundId] = useState(""); // 찾은 아이디 알림 문구
+    let [userId, setUserId] = useState("");
 
     const checkEmail = () => {
         setIsVisible(false);
         setPatEmailErr(false);
+        setFoundId(false);
         // email패턴 체크
         var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
         
@@ -33,9 +36,11 @@ function FindId(){
             }).then((res) => {
                 if(res.data === "NULL"){
                     setIsVisible(true);
+                    setFoundId(false);
                 } else {
                     setIsVisible(false);
-                    alert('고객님의 아이디는 "' + res.data + '" 입니다.');
+                    setFoundId(true);
+                    setUserId(res.data);
                 }
             }).catch(function(err){
                 console.log('err : ' + err);
@@ -59,6 +64,7 @@ function FindId(){
                                 onBlur={() => checkEmail()}></input>
                         <div className={isVisible ? 'err_msg_show' : 'err_msg'}>해당되는 이메일이 없습니다.</div>
                         <div className={patEmailErr ? 'err_msg_show' : 'err_msg'}>이메일 형식을 확인해주세요.</div>
+                        <div className={foundId ? 'err_msg_show' : 'err_msg'}>고객님의 아이디는 {userId} 입니다.</div>
                         <button type="button" id="loginBtn"
                             onClick={() => {findId({userEmail : userEmail})}}
                             >아이디 찾기</button>
