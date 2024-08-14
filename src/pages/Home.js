@@ -1,20 +1,35 @@
-import React, {useState} from "react";
+import React from 'react';
+import { Link } from "react-router-dom";
+import '../App.css';
+import Authentication from '../login/authentication/AuthenticationService';
 
 function Home(){
 
-    let [title, updateTitle] = useState(['20대 여성 코트 추천', '강남 우동 맛집']);
+    const isLogin = Authentication.isUserLoggedIn();
 
-    return (
+    return(
         <div>
-            <div className="list">
-                <h3> {title[0]} </h3>
-                <p>2월 17일 발행</p>
-                <hr/>
-            </div>
-            <div className="list">
-                <h3> {title[1]} </h3>
-                <p>2월 18일 발행</p>
-                <hr/>
+            <div className="wrapPage">
+                <form className="loginForm">
+                    <div>
+                        <h1 id="budget_title">BUDGET BUDDY</h1>
+                    </div>
+                    <div className="budget-logo"> </div>
+                    {
+                        isLogin
+                        ? <></> 
+                        :
+                        <div className="link">
+                            <Link to="/login">로그인</Link>
+                            <span>&nbsp; | &nbsp;</span>
+                            <Link to="findId">아이디 찾기</Link>
+                            <span>&nbsp; | &nbsp;</span>
+                            <Link to="/findPw">비밀번호 찾기</Link>
+                            <span>&nbsp; | &nbsp;</span>
+                            <Link to="/register">회원가입</Link>
+                        </div>
+                    }
+                </form>
             </div>
         </div>
     )

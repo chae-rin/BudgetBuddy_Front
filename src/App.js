@@ -9,7 +9,8 @@ import FindId from './login/FindId';
 import FindPw from './login/FindPw';
 import ResetPw from './login/ResetPw';
 import LoginErr from './login/LoginErr';
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './component/routes/PrivateRoute';
+import PublicRoute from './component/routes/PublicRoute';
 import Authentication from './login/authentication/AuthenticationService';
 import './App.css';
 import { styled } from '@mui/material';
@@ -53,16 +54,23 @@ function App() {
         }
       </div>
       <Routes>
+        {/* 로그인전용 */}
         <Route element={<PrivateRoute/>}>
           <Route path="/budget/:year/:month" element={<Budget/>}></Route>
         </Route>
-        <Route path="/" element={<Login/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
-        <Route path='/findId' element={<FindId/>}/>
-        <Route path='/findPw' element={<FindPw/>}/>
-        <Route path='/resetPw' element={<ResetPw/>}/>
+
+        {/* 로그인, 로그아웃 공통 */}
+        <Route path="/" element={<Home/>}/>
         <Route path='/loginErr' element={<LoginErr/>}/>
+
+        {/* 로그아웃 전용 */}
+        <Route element={<PublicRoute/>}>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={<Register/>}/>
+          <Route path='/findId' element={<FindId/>}/>
+          <Route path='/findPw' element={<FindPw/>}/>
+          <Route path='/resetPw' element={<ResetPw/>}/>
+        </Route>
       </Routes>
     </div>
   );
