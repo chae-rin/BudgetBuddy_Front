@@ -6,14 +6,32 @@ body {
   font-family: 'nanumsquare';
 }
 
+
+.bank-logo{
+  background-image: url(./img/bank_green.png);
+  background-size: 25px 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 40px;
+}
+
+
 .black-nav {
-  background-color: black;
-  width: 100%;
+  /* background-color: white; */
+  width: 96%;
   display: flex;
-  color: white;
   padding: 20px;
   font-weight: 600;
+}
+
+.main-title {
+  color: rgb(051, 153, 051);
   font-size: 20px;
+}
+
+.logout {
+  margin-left: auto;
+  font-size: 10px;
 }
 
 .list {
@@ -26,7 +44,12 @@ body {
 
 .topMenu {            
   height: 40px;
-  width: 850px;
+  width: 100%;
+  display: flex;
+}
+
+.topMenu ul {
+  margin: 0 auto;
 }
 
 .topMenu ul li {                   
@@ -53,8 +76,7 @@ body {
 }
 
 .topMenu .menuLink.active {            
-  color: rgb(051, 153, 051);    
-  border-bottom: solid;               
+  color: rgb(051, 153, 051);  
 }
 
 .w-btn {
