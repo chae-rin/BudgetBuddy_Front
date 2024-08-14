@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
 #budget_title {
     color : rgb(051, 153, 051);
     margin-bottom:0px;
@@ -76,7 +72,6 @@
 }
 
 .err_msg {
-    /* visibility: hidden; */
     display:none;
 }
 
