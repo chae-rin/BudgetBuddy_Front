@@ -36,7 +36,12 @@ body {
 
 .topMenu {            
   height: 40px;
-  width: 850px;
+  width: 100%;
+  display: flex;
+}
+
+.topMenu ul {
+  margin: 0 auto;
 }
 
 .topMenu ul li {                   
