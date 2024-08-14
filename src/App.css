@@ -15,6 +15,14 @@ body {
   width: 40px;
 }
 
+.budget-logo {
+  background-image: url(./img/bank_green.png);
+  background-size: 250px 250px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 300px;
+  height: 300px;
+}
 
 .black-nav {
   /* background-color: white; */
@@ -30,6 +38,8 @@ body {
 }
 
 .logout {
+  background-color: white;
+  border: none;
   margin-left: auto;
   font-size: 10px;
 }

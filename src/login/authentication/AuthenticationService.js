@@ -3,7 +3,6 @@ import axios from 'axios';
 class AuthenticationService {
 
     executeJwtAuthenticationService(user_id, user_pw){
-        console.log('execute jwt authentication service');
         return axios.post('/authenticate', {
             user_id,
             user_pw
@@ -11,10 +10,6 @@ class AuthenticationService {
     }
 
     registerSuccessLoginForJwt(user_id, token){
-        console.log("=== register login user ===");
-        console.log("id : " + user_id);
-        console.log("token : " + token);
-
         sessionStorage.setItem('authenticatedUser', user_id);
         sessionStorage.setItem('token', token);
 
