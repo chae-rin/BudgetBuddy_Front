@@ -16,7 +16,7 @@
 **Cofig**  
 <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"/> 
   
-  
+* * *     
 🖥️ 화면구성
 -------------
 |로그인|회원가입|
@@ -27,7 +27,7 @@
 |---|---|
 |![budget](https://github.com/user-attachments/assets/f55740a0-e157-44e5-bd28-831068faa770)|![image](https://github.com/user-attachments/assets/ff1eb14f-ccb0-4888-b38d-41df1b65a5d9)|
 
-  
+* * *     
 📌 주요기능
 -------------
 ⭐ 
