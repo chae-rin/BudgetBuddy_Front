@@ -1,4 +1,4 @@
-# BudgetBuddy (FrontEnd)  
+**BudgetBuddy (FrontEnd)**  
 * * *   
 프로젝트 소개
 -------------
