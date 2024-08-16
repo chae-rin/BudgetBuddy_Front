@@ -18,9 +18,17 @@
   
 🖥️ 화면구성
 -------------
-|로그인 페이지|가계부 페이지|
+|로그인|회원가입|
+|---|---|
+|![login](https://github.com/user-attachments/assets/9b235353-d5e7-4904-8222-8fd3ee1628e6)|![image](https://github.com/user-attachments/assets/339ec25b-4ce5-452e-abd2-2e2318a2325b)|
+|가계부|모달|
 |---|---|
 |![login](https://github.com/user-attachments/assets/9b235353-d5e7-4904-8222-8fd3ee1628e6)|![budget](https://github.com/user-attachments/assets/f55740a0-e157-44e5-bd28-831068faa770)|
+
+
+
+
+
 
   
   
