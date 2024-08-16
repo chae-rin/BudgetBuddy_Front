@@ -20,8 +20,9 @@
 -------------
 |로그인 페이지|가계부 페이지|
 |:---|---:|
-||테스트1|테스트2||
-  
+||![login](https://github.com/user-attachments/assets/9b235353-d5e7-4904-8222-8fd3ee1628e6)
+||![budget](https://github.com/user-attachments/assets/f55740a0-e157-44e5-bd28-831068faa770)||
+
   
   
 📌 주요기능
