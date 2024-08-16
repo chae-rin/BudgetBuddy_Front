@@ -1,8 +1,8 @@
-# BudgetBuddy - FrontEnd
+# BudgetBuddy (FrontEnd)
 
 🖥️ 프로젝트 소개
 -------------
-  
+- 개발기간 : 2024.07 ~ 진행중  
   
 ⚙️ 기술스택
 -------------
@@ -22,18 +22,11 @@
 |---|---|
 |![login](https://github.com/user-attachments/assets/9b235353-d5e7-4904-8222-8fd3ee1628e6)|![image](https://github.com/user-attachments/assets/339ec25b-4ce5-452e-abd2-2e2318a2325b)|
 
-|가계부|모달창|
+|가계부|추가/수정 모달창|
 |---|---|
-|![budget](https://github.com/user-attachments/assets/f55740a0-e157-44e5-bd28-831068faa770)|![image](https://github.com/user-attachments/assets/ff1eb14f-ccb0-4888-b38d-41df1b65a5d9)
-|
+|![budget](https://github.com/user-attachments/assets/f55740a0-e157-44e5-bd28-831068faa770)|![image](https://github.com/user-attachments/assets/ff1eb14f-ccb0-4888-b38d-41df1b65a5d9)|
 
-
-
-
-
-
-  
   
 📌 주요기능
 -------------
-
+⭐ 
