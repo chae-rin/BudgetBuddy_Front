@@ -24,7 +24,8 @@
 
 |가계부|모달창|
 |---|---|
-|![budget](https://github.com/user-attachments/assets/f55740a0-e157-44e5-bd28-831068faa770)|![budget_modal](https://github.com/user-attachments/assets/f4cf2eb3-3473-4522-8972-539a1725f7d5)|
+|![budget](https://github.com/user-attachments/assets/f55740a0-e157-44e5-bd28-831068faa770)|![image](https://github.com/user-attachments/assets/ff1eb14f-ccb0-4888-b38d-41df1b65a5d9)
+|
 
 
 
