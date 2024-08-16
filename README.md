@@ -1,4 +1,5 @@
-<img src="https://capsule-render.vercel.app/api?type=wave&color=yellow&height=200&section=header&text=BudgetBuddy (FrontEnd)&fontSize=90" />
+# BudgetBuddy (FrontEnd)
+<img src="https://capsule-render.vercel.app/api?type=wave&color=yellow&height=200&section=header&text=BudgetBuddy&fontSize=90" />
 
 프로젝트 소개
 -------------
