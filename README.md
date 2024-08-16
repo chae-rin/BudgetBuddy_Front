@@ -1,7 +1,6 @@
-**BudgetBuddy (FrontEnd)**  
-* * *   
-프로젝트 소개
+# 프로젝트 소개
 -------------
+**BudgetBuddy (FrontEnd)**  
 - 개발기간 : 2024.07 ~ 진행중  
 
 * * *   
