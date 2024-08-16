@@ -11,6 +11,7 @@
   - VSCode 1.91
   - node 20.15.1
   - react 5.0.1
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"/>
 
 
 📌 주요기능
