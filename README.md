@@ -1,6 +1,5 @@
-# BudgetBuddy (FrontEnd)
-<img src="https://capsule-render.vercel.app/api?type=wave&color=yellow&height=200&section=header&text=BudgetBuddy&fontSize=90" />
-
+# BudgetBuddy (FrontEnd)  
+* * *   
 프로젝트 소개
 -------------
 - 개발기간 : 2024.07 ~ 진행중  
