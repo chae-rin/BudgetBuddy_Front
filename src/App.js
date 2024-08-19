@@ -1,6 +1,7 @@
 /** eslint-disable */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Routes, Route, useLocation, NavLink, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 import Home from "./pages/Home";
 import Budget from "./pages/Budget.js";
 import Login from './login/Login';
@@ -9,6 +10,7 @@ import FindId from './login/FindId';
 import FindPw from './login/FindPw';
 import ResetPw from './login/ResetPw';
 import LoginErr from './login/LoginErr';
+import MyInfo from './pages/MyInfo';
 import PrivateRoute from './component/routes/PrivateRoute';
 import PublicRoute from './component/routes/PublicRoute';
 import Authentication from './login/authentication/AuthenticationService';
@@ -20,6 +22,21 @@ function App() {
   let today = new Date();
   const navigate = useNavigate();
   const isLogin = Authentication.isUserLoggedIn();
+  let [userNickname, setUserNickname] = useState("");
+
+  useEffect(() => {
+
+    if(isLogin){
+      axios.post('/user/findById', {
+        'user_id' : Authentication.getLoginUserId()
+      }).then((res) => {
+        setUserNickname(res.data.user_nickname);
+      }).catch(function(err){
+        console.log('error : ' + err);
+      });
+    }
+
+  });
 
   function logout(){
     if(window.confirm('로그아웃하시겠습니까?')){
@@ -36,7 +53,11 @@ function App() {
             <div className='main-title'>Budget Buddy</div>
             {
               isLogin
-              ? <button type="button" className='logout' onClick={() => {logout()}}>로그아웃</button>
+              ? 
+                <div className="logoutContainer">
+                  <div className="nickname" onClick={() => navigate('/myInfo')}>{userNickname}님</div>
+                  <button type="button" className='logout' onClick={() => {logout()}}>로그아웃</button>
+                </div>
               : <></>
             }
         </div>
@@ -60,6 +81,7 @@ function App() {
         {/* 로그인전용 */}
         <Route element={<PrivateRoute/>}>
           <Route path="/budget/:year/:month" element={<Budget/>}></Route>
+          <Route path="/myInfo" element={<MyInfo/>}></Route>
         </Route>
 
         {/* 로그아웃 전용 */}
