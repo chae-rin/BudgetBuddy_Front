@@ -44,7 +44,8 @@ function Login(){
                             placeholder="비밀번호를 입력해주세요"
                             onChange={(e) => setUserPw(e.target.value)}></input>
                         <div className={isVisible ? 'err_msg_show' : 'err_msg'}>아이디와 비밀번호를 확인해주세요.</div>
-                        <button type="button" id="loginBtn"
+                        <button type="button"
+                            className={isVisible || userId.length === 0 || userPw.length === 0 ? 'loginBtnNot' : 'loginBtn'}
                             onClick={() => {authLogin()}}
                             >Login</button>
                     </div>

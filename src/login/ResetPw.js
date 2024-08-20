@@ -14,6 +14,7 @@ function ResetPw(){
     let [samePwErr, setSamePwErr] = useState(""); // 비번 확인 오류 문구
 
     const checkPassword = () => {
+        setSamePwErr(false);
         setPatPwErr(false);
         // 비밀번호 패턴 체크 - 8~16자의 영문, 숫자, 특수문자
         var regExp = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
@@ -80,8 +81,9 @@ function ResetPw(){
                                 onChange={(e) => setUserPw2(e.target.value)}
                                 onBlur={() => checkPassword2()}></input>
                         <div className={samePwErr ? 'err_msg_show' : 'err_msg'}>비밀번호가 일치하지 않습니다.</div>
-                        <button type="button" id="loginBtn"
-                            onClick={() => {resetPw({userPw : userPw, userPw2 : userPw2})}}
+                        <button type="button"
+                            className={patPwErr || samePwErr || userPw.length === 0 || userPw2.length === 0 ? 'loginBtnNot' : 'loginBtn'}
+                            onClick={() => {resetPw()}}
                             >비밀번호 초기화</button>
                     </div>
                     <div className="link">

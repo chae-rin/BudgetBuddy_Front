@@ -25,14 +25,14 @@ function FindId(){
         }
     }
 
-    function findId(props){
+    function findId(){
 
         if(isVisible === true || patEmailErr === true){
             checkEmail();
             return;
         } else {
             axios.post('/user/findId',{
-                'user_email' : props.userEmail,
+                'user_email' : userEmail,
             }).then((res) => {
                 if(res.data === "NULL"){
                     setIsVisible(true);
@@ -62,11 +62,13 @@ function FindId(){
                                 placeholder="이메일을 입력해주세요" autoFocus
                                 onChange={(e) => setUserEmail(e.target.value)}
                                 onBlur={() => checkEmail()}></input>
-                        <div className={isVisible ? 'err_msg_show' : 'err_msg'}>해당되는 이메일이 없습니다.</div>
-                        <div className={patEmailErr ? 'err_msg_show' : 'err_msg'}>이메일 형식을 확인해주세요.</div>
+                        <div className={isVisible || patEmailErr ? 'err_msg_show' : 'err_msg'}>
+                            { isVisible ? "해당되는 이메일이 없습니다." : "이메일 형식을 확인해주세요." }
+                        </div>
                         <div className={foundId ? 'err_msg_show' : 'err_msg'}>고객님의 아이디는 {userId} 입니다.</div>
-                        <button type="button" id="loginBtn"
-                            onClick={() => {findId({userEmail : userEmail})}}
+                        <button type="button"
+                            className={isVisible || patEmailErr || userEmail.length === 0 ? 'loginBtnNot' : 'loginBtn'}
+                            onClick={() => {findId()}}
                             >아이디 찾기</button>
                     </div>
                     <div className="link">

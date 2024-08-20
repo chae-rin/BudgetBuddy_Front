@@ -10,15 +10,15 @@ function FindPw(){
     let [isVisible, setIsVisible] = useState("");
     const navigate = useNavigate();
 
-    function findPw(props){
+    function findPw(){
 
         axios.post('/user/findPw',{
-            'user_id' : props.userId,
-            'user_email' : props.userEmail
+            'user_id' : userId,
+            'user_email' : userEmail
         }).then((res) => {
             if(res.data === "success"){
                 setIsVisible(false);
-                navigate('/ResetPw', {state : {user_id : props.userId}});
+                navigate('/ResetPw', {state : {user_id : userId}});
             } else {
                 setIsVisible(true);
             }
@@ -45,8 +45,9 @@ function FindPw(){
                                 onChange={(e) => setUserEmail(e.target.value)}
                                 ></input>
                         <div className={isVisible ? 'err_msg_show' : 'err_msg'}>해당되는 정보가 없습니다.</div>
-                        <button type="button" id="loginBtn"
-                            onClick={() => {findPw({userId : userId, userEmail : userEmail})}}
+                        <button type="button"
+                            className={isVisible || userId.length === 0 || userEmail.length === 0 ? 'loginBtnNot' : 'loginBtn'}
+                            onClick={() => {findPw()}}
                             >비밀번호 초기화</button>
                     </div>
                     <div className="link">
