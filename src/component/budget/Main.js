@@ -14,7 +14,7 @@ function Main(props){
             method: 'get',
             url: '/budget/list',
             params: {
-                userId: 'hue9404',
+                userId: sessionStorage.getItem('authenticatedUser'),
                 recordDt : props.curDate.getFullYear() + '-' + ("00"+(props.curDate.getMonth()+1).toString()).slice(-2)
             }
         })
@@ -65,7 +65,6 @@ function Main(props){
     const getData = async(param)=>{
         
         // 아이디 세팅
-        // setRecordId(param);
         recordId.current = param;
 
         if(recordId.current !== '')
@@ -75,7 +74,7 @@ function Main(props){
                 url: '/budget/info',
                 params: {
                     recordId  : recordId.current,
-                    userId    : 'hue9404'
+                    userId    : sessionStorage.getItem('authenticatedUser')
                 }
             })
             .then((res) => {
@@ -221,17 +220,18 @@ function Main(props){
         if(mode==='REG'){
             insertData(params);
         } else{
-            // updateData(params);
+            updateData(params);
         }
     }
 
 
+    // 수입지출 내역 추가
     function insertData(params) {
         axios({
             method: 'post',
             url: '/budget',
             params: {
-                userId          : 'hue9404',
+                userId          : sessionStorage.getItem('authenticatedUser'),
                 recordAmount    : params.recordAmount.replace(/,/gi, ''),
                 recordType      : params.recordType,
                 expendCategory  : params.expendCategory,
@@ -257,19 +257,20 @@ function Main(props){
     }
 
 
+    // 수입지출 내역 수정
     function updateData(params){
         axios({
             method: 'put',
             url: '/budget/' + recordId.current,
             params: {
                 recordId        : recordId.current,
-                userId          : 'hue9404',
+                userId          : sessionStorage.getItem('authenticatedUser'),
                 recordAmount    : params.recordAmount.replace(/,/gi, ''),
                 recordType      : params.recordType,
                 expendCategory  : params.expendCategory,
                 incomeCategory  : params.incomeCategory,
                 recordDetail    : params.recordDetail,
-                recordPayment   : params.recordPayment,
+                recordPayment   : '0',
                 recordDtm       : params.recordDtm,
                 recordMemo      : params.recordMemo
             }
@@ -290,7 +291,7 @@ function Main(props){
     }
 
 
-    // 데이터 삭제
+    // 수입지출 내역 삭제
     const deleteData = ()=>{
 
         axios({
@@ -298,7 +299,7 @@ function Main(props){
             url: '/budget/' + recordId.current,
             params: {
                 recordId  : recordId.current,
-                userId    : 'hue9404'
+                userId    : sessionStorage.getItem('authenticatedUser')
             }
         })
         .then((res) => {

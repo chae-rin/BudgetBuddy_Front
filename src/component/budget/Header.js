@@ -8,20 +8,21 @@ const Header = forwardRef((props, ref) => {
     }));
 
 
-    // 지출, 수입
-    const [expend, setExpend] = useState(0);
-    const [income, setIncome] = useState(0);
+    const [expend, setExpend] = useState(0);    // 지출
+    const [income, setIncome] = useState(0);    // 수입
 
     useEffect(() => {
         getMonthlyTotal();
     }, [props.curDate]);    
 
+
+    // 월별 수입 지출 금액 합계 
     const getMonthlyTotal = () => {
         axios({
             method: 'get',
             url: '/budget/monthly/total',
             params: {
-                userId: 'hue9404',
+                userId: sessionStorage.getItem('authenticatedUser'),
                 recordDt : props.curDate.getFullYear() + '-' + ("00"+(props.curDate.getMonth()+1).toString()).slice(-2)
             }
         })
